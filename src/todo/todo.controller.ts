@@ -8,6 +8,6 @@ export class TodoController {
 
 @Get()
 findAll(): Todo[] {
-    return [];
+    return this.todoService.findAll();
 }
 }
