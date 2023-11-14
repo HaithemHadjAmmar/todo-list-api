@@ -23,4 +23,9 @@ export class TodoService {
         const index = this.storage.findIndex((t: Todo) => t.id === id);
         this.storage[index] = todo;
     }
+
+    remove(id: number): void {
+        const index = this.storage.findIndex((t: Todo) => t.id === id);
+        this.storage.splice(index, 1);
+    }
 } 
