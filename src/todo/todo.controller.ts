@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger,Param,  Post, } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, ParseIntPipe, Post } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { Todo } from './todo.interface';
 
@@ -21,8 +21,8 @@ export class TodoController {
     }
 
     @Get(':id')
-     findOne(@Param('id') id: number): Todo {
-        this.logger.log('Handling findOne() request with id=' +id+ '...');
+     findOne(@Param('id', ParseIntPipe) id: number): Todo {
+        this.logger.log('Handling findOne() request with id=' + id + '...');
         return this.todoService.findOne(id);
      }
 }
