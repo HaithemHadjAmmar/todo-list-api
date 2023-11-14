@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Post, Put, Res, HttpStatus } from '@nestjs/common';
 import { TodoService } from './todo.service';
+import { Response } from 'express';
 import { Todo } from './todo.interface';
 
 @Controller('todo')
@@ -9,10 +10,15 @@ export class TodoController {
     constructor(private readonly todoService: TodoService) {}
 
     @Post()
-    create(@Body() todo: Todo): void {
-        this.logger.log('Handling create() request... ');
-        return this.todoService.create(todo);
-    }
+    async create(@Body() todo: Todo, @Res() res: Response): Promise<void> {
+        this.logger.log('Handling create() request...');
+        try {
+          const createdTodo = await this.todoService.create(todo);
+          res.status(HttpStatus.CREATED).json(createdTodo); // Send a success response with the created Todo
+        } catch (error) {
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Unable to create Todo' });
+        }
+      }
 
     @Get()
     findAll(): Todo[] {

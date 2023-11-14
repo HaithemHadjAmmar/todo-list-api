@@ -6,7 +6,7 @@ export class TodoService {
     private storage: Todo[] = [];
 
     create(todo: Todo): void {
-        const currentMaxId = Math.max(...this.storage.map((t: Todo) => t.id));
+        const currentMaxId = this.storage.length > 0 ? Math.max(...this.storage.map((t: Todo) => t.id)) : 0;
         todo.id = currentMaxId + 1;
         this.storage.push(todo);
     } 
